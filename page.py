@@ -1,5 +1,5 @@
-import pygame, random
-
+import pygame, random, sys
+pygame.init()
 screen = pygame.display.set_mode((800,600))
 
 draw_on = False
@@ -19,9 +19,17 @@ def roundline(srf, color, start, end, radius=1):
 try:
     while True:
         e = pygame.event.wait()
+        print(e)
+
+
         if e.type == pygame.QUIT:
             raise StopIteration
         if e.type == pygame.MOUSEBUTTONDOWN:
+            if e.button == 3:
+                print('\nSaved my bit!')
+                fname = "hml.png"
+                pg.image.save(win, fname)
+                pygame.quit()
             color = (random.randrange(256), random.randrange(256), random.randrange(256))
             pygame.draw.circle(screen, color, e.pos, radius)
             draw_on = True
@@ -33,7 +41,7 @@ try:
                 roundline(screen, color, e.pos, last_pos,  radius)
             last_pos = e.pos
         pygame.display.flip()
-
+        pygame.event.pump()
 except StopIteration:
     pass
 
